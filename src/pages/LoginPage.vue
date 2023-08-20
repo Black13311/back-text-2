@@ -60,6 +60,7 @@
         <a-button :disabled="disabled" 
         type="primary"
          html-type="button" 
+         @click="onFinish"
          class="login-form-button" 
         block>
           Log in
@@ -91,16 +92,25 @@
     password: '',
     remember: true,
   });
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
-  
+
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
   const disabled = computed(() => {
     return !(formState.email && formState.password);
   });
+  // create router home in local & filer
+  const onFinish = () => {
+  const storedEmail = localStorage.getItem(formState.email);
+  const storedPassword = localStorage.getItem(formState.password);
+
+  if (formState.email === storedEmail && formState.password === storedPassword) {
+    window.localStorage.href = '/home';
+  } else {
+    alert('Invalid credentials');
+  }
+};
   </script>
   <style scoped>
   #components-form-demo-normal-login .login-form {

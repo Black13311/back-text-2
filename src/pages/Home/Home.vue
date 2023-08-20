@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SearchOutlined, UserOutlined, } from '@ant-design/icons-vue';
+import { SearchOutlined, UserOutlined, DownOutlined, UnorderedListOutlined } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 
 const rating = ref<number>(3.5)
@@ -7,12 +7,12 @@ const rating = ref<number>(3.5)
 <template>
     <div>
         <!-- Message -->
-        <div class="flex bg-lime-700 text-gray-100 px-4 py-2 items-center gap-96 justify-center rounded">
+        <div class="flex bg-lime-700 text-gray-100 px-4 py-2 items-center gap-96 justify-center rounded w-full">
             <p class="text-center text-slate-50 font-medium mt-3">Tel:020-93420592</p>
             <!-- Nav Bar -->
         </div>
         <div>
-            <header class=" dark:bg-gray-800 dark:text-gray-100">
+            <header class=" dark:bg-gray-800 dark:text-gray-100 w-full">
                 <div class="container flex h-8 mx-auto" bis_skin_checked="1">
                     <a rel="noopener noreferrer" href="#" aria-label="Back to homepage"
                         class="flex items-center px-3 py-8 rou">
@@ -23,15 +23,15 @@ const rating = ref<number>(3.5)
                         </svg>
 
                     </a>
-                    <ul class="flex  py-6  gap-14 ">
-                        <a>Categories</a>
+                    <ul class="flex py-6 gap-11">
+                        <a class="">Categories</a>
                         <a>Deals</a>
                         <a>What's_New</a>
                         <a>Deilvery</a>
                     </ul>
-                    <div class="px-56">
-                        <div class="flex justify-center p-4  ">
-                            <input type="text" placeholder="Search Product" class="w-full h-8 px-14 rounded-xl" />
+                    <div class="w-26 px-40 ">
+                        <div class="flex justify-center p-4">
+                            <input type="text" placeholder="Search Product" class="w-full h-8 px-13 rounded-xl" />
                             <search-outlined class="site-form-item-icon px-3 py-2" />
                         </div>
                     </div>
@@ -53,17 +53,18 @@ const rating = ref<number>(3.5)
         </div>
         <div class="rounded overflow-auto p-8 ">
             <a-carousel autoplay>
-                <div>
-                    <h3>1</h3>
+                <div class="bg-green-400">
+                    <a class="bg-white px-6 py-2 rounded-xl">Shop</a>
+
                 </div>
                 <div>
-                    <h3>2</h3>
+                    <h3 class="bg-green-200">2</h3>
                 </div>
                 <div>
-                    <h3>3</h3>
+                    <h3 class="bg-lime-300">3</h3>
                 </div>
                 <div>
-                    <h3>4</h3>
+                    <h3 class="bg-lime-200">4</h3>
                 </div>
             </a-carousel>
         </div>
@@ -71,32 +72,38 @@ const rating = ref<number>(3.5)
         <div class="flex">
             <nav class="gap-4">
                 <div class=" px-14 gap-3 space-x-6">
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">Price</a>
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">Color</a>
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">Review</a>
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">Headphone Type</a>
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">Material</a>
-                    <a class="bg-slate-400 px-3 py-1 rounded-xl">All Filters</a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    >Price <down-outlined /> </a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    > Color <down-outlined /> </a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    >Review <down-outlined /> </a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    >Headphone Type <down-outlined /> </a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    >Material <down-outlined /> </a>
+                    <a class="bg-slate-400 px-3 py-1 rounded-xl"
+                    > All Filters <unordered-list-outlined /> </a>
 
                 </div>
             </nav>
         </div>
         <!-- Title -->
         <h1 class="flex px-14 py-7 font-bold">Headphones For You!</h1>
-        <div class="bg-slate-400 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10 py-10 px-4">
+        <div class="bg-slate-400 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-9 py-1 px-4 bg-white ">
             <div v-for="(i, index) in 10" :key="index" class="w-[240px]">
                 <img src="../../assets/image/product1.jpg" alt="" class="w-[240px]">
                 <div>
                     <div class="flex">
-                        <p class="flex-1">Product name</p>
-                        <p>$89</p>
+                        <p class="flex-1 py-4 ">Product name</p>
+                        <p class="py-4">$89</p>
                     </div>
                     <div><span>Watch</span>, <span>Apple</span></div>
                     <div class="py-2">
-                        <a-rate v-model:value="rating" allow-half />
-                        <span class="ml-1">(1235)</span>
+                        <a-rate v-model:value="rating" class="text-sm" allow-half />
+                        <span class="text-sm">(1235)</span>
                     </div>
-                    <div><a-button type="primary">Add to cart</a-button></div>
+                    <div><a-button class="inline-block rounded-2xl border border-indigo-600 px-3 py-1 text-sm font-medium text-indigo-600 ">Add to cart</a-button></div>
                 </div>
             </div>
         </div>
