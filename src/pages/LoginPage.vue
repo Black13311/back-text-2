@@ -15,8 +15,9 @@
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
-    <!-- Email -->
-    <a-form-item
+    <form @submit.prevent="onFinish">
+          <!-- Email -->
+     <a-form-item
         label=""
         name="email"
         
@@ -59,14 +60,16 @@
       <a-form-item>
         <a-button :disabled="disabled" 
         type="primary"
-         html-type="button" 
-         @click="onFinish"
+         html-type="submit" 
          class="login-form-button" 
         block>
           Log in
         </a-button>
-  
+
+      
       </a-form-item>
+    </form>
+
       <!-- register and for got password -->
     <a-form-item>
       <div class="flex">
@@ -82,6 +85,10 @@
   <script lang="ts" setup>
   import { reactive, computed } from 'vue';
   import { LockOutlined, MailOutlined } from '@ant-design/icons-vue';
+  import router from '../router';
+import getMiniDecimal from 'ant-design-vue/es/input-number/src/utils/MiniDecimal';
+import { genImagePreviewStyle } from 'ant-design-vue/es/image/style';
+
   interface FormState {
     email: string;
     password: string;
@@ -94,21 +101,33 @@
   });
 
 
+
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
   const disabled = computed(() => {
     return !(formState.email && formState.password);
+
   });
   // create router home in local & filer
   const onFinish = () => {
-  const storedEmail = localStorage.getItem(formState.email);
-  const storedPassword = localStorage.getItem(formState.password);
+  // const storedEmail = localStorage.getItem(email);
+  // const storedPassword = localStorage.getItem(password);
+  const storedUserData = JSON.parse(localStorage.getItem('user'));
+  if (storedUserData === null) {
+    alert('User data not found in localStorage');
+    return;
+  }
 
-  if (formState.email === storedEmail && formState.password === storedPassword) {
-    window.localStorage.href = '/home';
+  const matchingUser = storedUserData.user.find(
+    (user: any) => user.email === formState.email && user.password === formState.password
+  );
+
+  if (matchingUser) {
+    router.push('/home'); // Use router.push() to navigate to the home page
   } else {
-    alert('Invalid credentials');
+    alert('Not User');
   }
 };
   </script>
