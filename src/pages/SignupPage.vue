@@ -76,7 +76,6 @@ const defaultValues = {
   con_password: "",
   password: "",
   email: "",
-  remember: true,
 };
 
 let formState = reactive<UserModel>({ ...defaultValues });

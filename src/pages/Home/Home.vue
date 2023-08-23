@@ -59,17 +59,52 @@ const rating = ref<number>(3.5)
         <div class="rounded overflow-auto p-8 ">
             <a-carousel autoplay>
                 <div class="bg-green-400">
-                    <a class="bg-white px-6 py-1 rounded-xl mt-2">Shop</a>
-
+                    <div class=" text-center   ">
+                        <p class="text-sm font-semibold uppercase tracking-widest">
+                            Run with the pack
+                        </p>
+                        <h2 class="mt-6 font-black ">
+                            <span class="text-4xl font-black sm:text-5xl lg:text-6xl">
+                                Get 20% off
+                            </span>
+                        </h2>
+                    </div>
                 </div>
                 <div>
-                    <h3 class="bg-green-200">2</h3>
+                    <div class=" text-center bg-red-400">
+                        <p class="text-sm font-semibold uppercase tracking-widest">
+                            Run with the pack
+                        </p>
+                        <h2 class="mt-6 font-black ">
+                            <span class="text-4xl font-black sm:text-5xl lg:text-6xl">
+                                Get 40% off
+                            </span>
+                        </h2>
+                    </div>
                 </div>
                 <div>
-                    <h3 class="bg-lime-300">3</h3>
+                    <div class=" text-center bg-cyan-500 ">
+                        <p class="text-sm font-semibold uppercase tracking-widest">
+                            Run with the pack
+                        </p>
+                        <h2 class="mt-6 font-black ">
+                            <span class="text-4xl font-black sm:text-5xl lg:text-6xl">
+                                Get 30% off
+                            </span>
+                        </h2>
+                    </div>
                 </div>
                 <div>
-                    <h3 class="bg-lime-200">4</h3>
+                    <div class=" text-center   ">
+                        <p class="text-sm font-semibold uppercase tracking-widest">
+                            Run with the pack
+                        </p>
+                        <h2 class="mt-6 font-black ">
+                            <span class="text-4xl font-black sm:text-5xl lg:text-6xl">
+                                Get 90% off
+                            </span>
+                        </h2>
+                    </div>
                 </div>
             </a-carousel>
         </div>
@@ -198,7 +233,7 @@ const rating = ref<number>(3.5)
         <h1 class="flex px-14 py-7 font-bold">Headphones For You!</h1>
         <div
             class="bg-slate-400 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 py-2 px-4 gap-5 bg-white ">
-            <div v-for="(i: anyType, index) in  20 " :key=" index " class="w-[240px]">
+            <div v-for="(i: anyType, index) in    20   " :key=" index " class="w-[240px]">
                 <img src="../../assets/image/product1.jpg" alt="" class="w-[240px]">
                 <div>
                     <div class="flex">
@@ -231,4 +266,5 @@ const rating = ref<number>(3.5)
 
 :deep(.slick-slide h3) {
     color: #fff;
-}</style>
+}
+</style>
