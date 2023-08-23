@@ -5,6 +5,7 @@ import router from '../router';
 
 const route = useRoute()
 
+// 
 
 console.log(route);
 </script>
@@ -13,7 +14,7 @@ console.log(route);
       <template #extra>
         <a-button v-if="route.path === '/signup'"
         @click="router.push('/')">Go To Login</a-button>
-        <a-button v-else type="primary" >Back Home</a-button>
+        <a-button v-else= "route.path == '/home'" type="primary" @click="router.push('/home')" >Back Home</a-button>
 
       </template>
     </a-result>

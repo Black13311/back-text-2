@@ -72,36 +72,35 @@ import { message } from 'ant-design-vue';
 import router from '../router';
 
 const defaultValues = {
+  fname: "",
+  con_password: "",
+  password: "",
+  email: "",
+  remember: true,
+};
 
-  email: '',
-  fname: '',
-  password: '',
-  con_password: '',
-
-}
 let formState = reactive<UserModel>({ ...defaultValues });
-const user = userStore()
-const isRegistered = userStore()
 
-const onFinish = (values: any) => {
-  if (formState.password !== formState.con_password) {
-    return message.warning('Confirm message matched')
+const user = userStore();
+
+const onFinish = () => {
+  try {
+    if (formState.password !== formState.con_password) {
+      return message.warning("confirm password not corret");
+    }
+
+    user.register(formState);
+
+    message.success("Register success");
+    formState = { ...defaultValues };
+    router.push("/confirm");
+  } catch (error: any) {
+    message.error(error.message);
   }
-
-  const isRegistered = user.register(formState)
-if (!isRegistered) {
-  return message.error ('Email already exist')
-}
-  if (isRegistered) {
-
-    message.success('success')
-    formState = defaultValues
-    router.push('/')
-  }
-}
+};
 
 const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
+  console.log("Failed:", errorInfo);
 };
 const disabled = computed(() => {
   return !(formState.fname && formState.email && formState.password);
