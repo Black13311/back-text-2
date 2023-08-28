@@ -1,8 +1,8 @@
 export interface UserModel {
+  fullName?: string;
   email: string;
-  fname?: string;
   password: string;
-  con_password?: string;
+  confirmPassword?: string;
   status?: string;
   remember?: boolean;
 }

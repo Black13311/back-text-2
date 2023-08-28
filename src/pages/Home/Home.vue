@@ -266,5 +266,5 @@ const rating = ref<number>(3.5)
 
 :deep(.slick-slide h3) {
     color: #fff;
-}
+} 
 </style>

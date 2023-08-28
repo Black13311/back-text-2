@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { userStore } from './stores/user';
 
+const user = userStore();
 </script>
 
 <template>

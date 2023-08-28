@@ -1,73 +1,43 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { message } from "ant-design-vue";
+import { userStore } from "../stores/user.ts";
+import router from '../router';
+import { showOtp } from "../utils/myutil.ts";
+
+const email = ref<string>()
+const user = userStore()
+
+const onForgotPassword = () => {
+  if (!email.value) return message.warning('Please enter your email')
+  try {
+    const result = user.forgotPassword(email.value)
+
+    showOtp('Forgot password successful', result.code)
+
+    router.push('/forgot-password/verify')
+  } catch (err: any) {
+    message.error(err.message)
+  }
+}
+
+</script>
+
 <template>
-  <div class="h-screen bg-gray-100 flex justify-center items-center ">
-    <div class="bg-white xl:w-1/5 h-fit p-6 rounded-2xl shadow-xl">
-      <div class="w-fit mx-auto mb-10">
-        <!-- Logo -->
-        <img src="vite.svg" class="w-20" />
+  <div class="min-h-screen flex items-center justify-center bg-sky-600">
+    <div class="w-96 bg-white rounded-3xl shadow-2xl p-6">
+      <div class="text-center">
+        <h1 class="font-semibold text-gray-600">Forgot Password?</h1>
+        <p class="text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
       </div>
       <div>
-        <p class="font-bold px-3 text-center mb-5">For Got Password </p>
+        <a-input v-model:value="email" size="large" class="my-4 text-center" placeholder="Enter your email" />
+        <a-button size="large" type="primary" block :disabled="!email" @click="onForgotPassword">Reset my Password
+        </a-button>
       </div>
-      <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
-        <!-- Email -->
-        <a-form-item label="" name="email" :rules="[{ required: true, message: 'Please input your Email!' }]">
-          <a-input v-model:value="formState.email" size="large" placeholder="Enter Email">
-            <template #prefix>
-
-              <mail-outlined class="site-form-item-icon" />
-            </template>
-          </a-input>
-        </a-form-item>
-
-        <!-- Confirm -->
-        <a-form-item>
-          <a-button :disabled="disabled" type="primary" html-type="button" class="login-form-button" block>
-            Confirm
-          </a-button>
-
-        </a-form-item>
-
-        <a-form-item>
-          <div class="flex">
-            <router-link to="/" class="flex">Login now!</router-link>
-          </div>
-        </a-form-item>
-      </a-form>
+      <a href="/login" class="no-underline">Login</a>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import { reactive, computed } from 'vue';
-import { MailOutlined } from '@ant-design/icons-vue';
-interface FormState {
 
-  email: string;
-}
-const formState = reactive<FormState>({
-  email: '',
-});
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
-const disabled = computed(() => {
-  return !(formState.email);
-});
-</script>
-<style scoped>
-#components-form-demo-normal-login .login-form {
-  max-width: 300px;
-}
-
-#components-form-demo-normal-login .login-form-forgot {
-  float: right;
-}
-
-#components-form-demo-normal-login .login-form-button {
-  width: 100%;
-}
-</style>
-  
+<style scoped></style>

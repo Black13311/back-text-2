@@ -1,110 +1,140 @@
+<script lang="ts" setup>
+import {reactive, computed, ref} from 'vue';
+import {UserOutlined, LockOutlined, IdcardOutlined, MailOutlined} from '@ant-design/icons-vue';
+import {UserModel} from '../model/UserModel';
+import {userStore} from '../stores/user.ts';
+import {message, Modal} from "ant-design-vue";
+import router from '../router';
+import {showOtp} from "../utils/myutil.ts";
+
+const defaultValues = {
+  fullName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+}
+let formState = reactive<UserModel>({...defaultValues});
+const user = userStore()
+const secondsToGo = ref(30)
+
+const onFinish = () => {
+  try {
+    if (formState.password !== formState.confirmPassword) {
+      return message.warning('Confirm message is not matched!')
+    }
+
+    // get register result
+    const result = user.register(formState)
+
+    // clear register form
+    formState = {...defaultValues}
+
+    // show verify otp
+    //message.success(`Registered successful, You OTP code is: ${result.code}`, 10)
+
+    showOtp('Registered Successful', result.code)
+
+    router.push('/register/verify')
+  } catch (err: any) {
+    message.error(err.message)
+  }
+}
+
+const onFinishFailed = (errorInfo: any) => {
+  console.log('Failed:', errorInfo);
+};
+
+const disabled = computed(() => {
+  return !(formState.fullName && formState.email && formState.password);
+});
+</script>
+
 <template>
-  <div class="h-screen bg-gray-100 flex justify-center items-center ">
-    <div class="bg-white xl:w-1/5 h-fit p-6 rounded-2xl shadow-xl">
-      <!-- Logo -->
+  <div class="h-screen bg-gray-100 flex justify-center items-center">
+    <div class="bg-white xl:w-1/5 h-fit px-6 py-6 rounded-2xl shadow-2xl">
       <div class="w-fit mx-auto mb-10">
-        <img src="vite.svg" class="w-20" />
+        <p class="text-xl font-semibold pt-4">Register NOW!</p>
       </div>
-      <div>
-        <p class="font-bold px-3 text-center mb-5"> Sign Up </p>
-      </div>
-      <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
-        <!-- Full Name -->
-        <a-form-item label="" name="fname" :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.fname" size="large" placeholder="Enter Full Name" aria-autocomplete="off">
-            <template #prefix>
+      <a-form
+        :model="formState"
+        name="normal_login"
+        class="login-form"
+        @finish="onFinish"
+        @finishFailed="onFinishFailed">
 
-              <UserOutlined class="site-form-item-icon" />
+        <a-form-item
+          label=""
+          name="fullName"
+          :rules="[{ required: true, message: 'Please input your full name!' }]">
+          <a-input v-model:value="formState.fullName"
+                   size="large"
+                   autocomplete="off"
+                   placeholder="Enter full name">
+            <template #prefix>
+              <IdcardOutlined class="site-form-item-icon"/>
             </template>
           </a-input>
         </a-form-item>
 
-        <!-- Email -->
-        <a-form-item label="" name="email" :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.email" size="large" placeholder="Enter Email" aria-autocomplete="off">
+        <a-form-item
+          label=""
+          name="email"
+          :rules="[{ required: true, message: 'Please input your email!' }]">
+          <a-input v-model:value="formState.email"
+                   size="large"
+                   placeholder="Enter email">
             <template #prefix>
-
-              <mail-outlined class="site-form-item-icon" />
+              <MailOutlined class="site-form-item-icon"/>
             </template>
           </a-input>
         </a-form-item>
-        <!-- Password -->
-        <a-form-item label="" name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
-          <a-input-password v-model:value="formState.password" size="large" placeholder="Enter Pasword">
+
+        <a-form-item
+          label=""
+          name="password"
+          :rules="[{ required: true, message: 'Please input your password!' }]">
+          <a-input-password v-model:value="formState.password"
+                            size="large"
+                            placeholder="Enter password">
             <template #prefix>
-              <LockOutlined class="site-form-item-icon" />
+              <LockOutlined class="site-form-item-icon"/>
             </template>
           </a-input-password>
         </a-form-item>
 
-        <!-- Confirm Password -->
-        <a-form-item label="" name="con_password" :rules="[{ required: true, message: 'Please input your password!' }]">
-
-          <a-input-password v-model:value="formState.con_password" size="large" placeholder="Confirm Pasword">
+        <a-form-item
+          label=""
+          name="confirmPassword"
+          :rules="[{ required: true, message: 'Please input your confirm password!' }]">
+          <a-input-password v-model:value="formState.confirmPassword"
+                            size="large"
+                            placeholder="Enter password again">
             <template #prefix>
-              <LockOutlined class="site-form-item-icon" />
+              <LockOutlined class="site-form-item-icon"/>
             </template>
           </a-input-password>
         </a-form-item>
 
-        <!-- Button SigUp -->
         <a-form-item>
-          <a-button :disabled="disabled" type="primary" html-type="submit" class="login-form-button" block>
-            Sign Up
+          <a-button :disabled="disabled"
+                    type="primary"
+                    html-type="submit"
+                    block
+                    class="login-form-button">
+            Register
           </a-button>
-
         </a-form-item>
+
         <a-form-item>
           <div class="flex">
-            <router-link to="/" class="flex-1">Login now!</router-link>
+            <router-link to="/login" class="flex-1">Login now!</router-link>
           </div>
         </a-form-item>
       </a-form>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import { reactive, computed } from 'vue';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue';
-import { UserModel } from '../model/UserModel'
-import { userStore } from '../stores/user'
-import { message } from 'ant-design-vue';
-import router from '../router';
 
-const defaultValues = {
-  fname: "",
-  con_password: "",
-  password: "",
-  email: "",
-};
-
-let formState = reactive<UserModel>({ ...defaultValues });
-
-const user = userStore();
-
-const onFinish = () => {
-  try {
-    if (formState.password !== formState.con_password) {
-      return message.warning("confirm password not corret");
-    }
-
-    user.register(formState);
-
-    message.success("Register success");
-    formState = { ...defaultValues };
-    router.push("/confirm");
-  } catch (error: any) {
-    message.error(error.message);
-  }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-const disabled = computed(() => {
-  return !(formState.fname && formState.email && formState.password);
-});
-</script>
 <style scoped>
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
@@ -118,4 +148,3 @@ const disabled = computed(() => {
   width: 100%;
 }
 </style>
-  
