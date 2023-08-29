@@ -76,7 +76,14 @@ const routes = [
       title: "Blog",
     },
   },
-
+  {
+    name: "HomeAdmin",
+    path: "/home",
+    component: () => import("../pages/admin/home-admin.vue"),
+    meta: {
+      title: "HomeAdmin",
+    },
+  },
 ];
 
 const index = createRouter({
@@ -85,13 +92,11 @@ const index = createRouter({
 });
 
 index.beforeEach(async (to, from, next) => {
-  console.log('to', to);
-  console.log('from', from);
 
   const auth = userStore()
   const requireAuth = to.matched.some((record) => record.meta.requireAuth)
 
-  if (requireAuth && !auth.user) {
+  if (requireAuth && Object.keys(auth.user).length <= 0) {
     next({name: 'LoginPage'})
   } else {
     next()
